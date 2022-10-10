@@ -174,15 +174,8 @@ def delete_cafe(cafe_id):
         db.session.delete(cafe_to_delete)
         db.session.commit()
         return jsonify(success="the cafe has been deleted from the database")
-
-# HTTP GET - Read Record
-
-# HTTP POST - Create Record
-
-# HTTP PUT/PATCH - Update Record
-
-# HTTP DELETE - Delete Record
-
+    
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
