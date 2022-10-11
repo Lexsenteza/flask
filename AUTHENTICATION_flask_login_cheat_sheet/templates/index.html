@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="box">
+	<h1>Flask Authentication</h1>
+
+    {% if not current_user.is_authenticated %}
+        {#            it is going to check if the current user is not authenticated that means they are anonymous. then you can display the login and register. else. dont show it #}
+        <a href="{{ url_for('login') }}" class="btn btn-primary btn-block btn-large">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-secondary btn-block btn-large">Register</a>
+    {% endif %}
+</div>
+
+{% endblock %}
