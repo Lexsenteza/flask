@@ -1,0 +1,73 @@
+{% include "header.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{post.img_url}}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>{{post.title}}</h1>
+            <h2 class="subheading">{{post.subtitle}}</h2>
+            <span class="meta">Posted by
+              <a href="#">{{post.author.name}}</a>
+              on {{post.date}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            {{ post.body|safe }}
+          <hr>
+            {% if current_user.id == 1 %}
+                <div class="clearfix">
+                    <a class="btn btn-primary float-right" href="{{url_for('edit_post', post_id=post.id)}}">Edit Post</a>
+                </div>
+            {% endif %}
+
+
+
+<!--           Comments Area -->
+{#        {% if current_user.is_authenticated %}#}
+            {{ ckeditor.load() }}
+            {{ ckeditor.config(name='body') }}
+            {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        {% if comments == [] %}
+{#        do nothing#}
+        {% elif comments != [] %}
+            {% for comment in comments %}
+                <div class="col-lg-8 col-md-10 mx-auto comment">
+                    <ul class="commentList">
+                        <li>
+                            <div class="commenterImage">
+{#                                you need to send a request for gravatar to work that's why the best place is in the image tag with the src which will send the request. #}
+                                <img src="{{ comment.comment_author.email | gravatar }}" alt="an image"/>
+{#                                i used emails here because the emails are unique when i set them while declaring the class of user so the hashes generated for all the users
+by the gravatar class would be different , and thus the avatars would be different as well #}
+                            </div>
+                            <div class="commentText">
+                                <p>{{ comment.text | safe }}</p>
+                                <span class="date sub-text">{{ comment.comment_author.name }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            {% endfor %}
+        {% endif %}
+{#        {% endif %}#}
+
+
+          </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+{% include "footer.html" %}
